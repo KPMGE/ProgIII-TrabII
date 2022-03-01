@@ -1,12 +1,11 @@
 #ifndef CANDIDATO_H_
 #define CANDIDATO_H_
 
+#include "./partido.h"
 #include <string>
 #include <vector>
 
 using std::string;
-
-class Partido;
 
 class Candidato {
 private:
