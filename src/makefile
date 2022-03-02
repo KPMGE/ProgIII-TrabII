@@ -1,48 +1,49 @@
-NAME_PROGRAM = vereadores.exe
-CC = g++
-FLAGS = -std=c++11 -lm -pedantic -Wall 
-C_FILES = $(wildcard *.cpp)
-O_FILES = $(patsubst %.cpp, %.o, $(C_FILES))
+############
+# Exemplo de makefile
+# Prof. João Paulo A. Almeida
+# Programação III
+# 
+# A princípio, você não precisa alterar nada, mas aqui assume-se que o diretório atual
+# é o diretório onde estão os códigos fonte (.cpp).
+#
 
-all: clean $(O_FILES) create_executable
+# nome do compilador
+CPP = g++
 
-main.o: main.cpp
-	@ echo "\033[1;32m"
-	@ echo "Compiling main.c ..."
-	@ $(CC) -c $< $(FLAGS)
-	@ echo "\033[0m"
+# opções de compilação
+CFLAGS = -Wall -g
+CPPFLAGS = -std=c++11
 
-%.o: %.cpp %.h
-	@ echo "\033[1;32m"
-	@ echo "Compiling $< ..."
-	@ $(CC) -c $< $(FLAGS)
-	@ echo "\033[0m"
+# define lista de arquivos-fonte, assumindo que estão no diretório atual
+FONTES = $(wildcard *.cpp) 
 
-create_executable: 
-	@ echo "\033[1;32m"
-	@ echo "Creating executable..."
-	@ $(CC) -o $(NAME_PROGRAM) $(O_FILES)
-	@ echo "\033[0m"
+# define lista dos arquivos-objeto usando nomes da lista de arquivos-fonte
+OBJETOS = $(FONTES:.cpp=.o)
 
-run: 
-	@ echo "\033[1;32m"
-	@ echo "Running program ..."
-	@ echo "\033[0m"
-	@ ./$(NAME_PROGRAM)
+# nome do arquivo executável
+EXECUTAVEL = vereadores
 
-pre_processor: 
-	 @ $(CC) -E $(C_FILES) > processed.c
+############ alvos
+#
+# use @ antes de todos os comandos, pois é necessário no script de teste
+#
 
-test: clean $(O_FILES) create_executable run
+# alvo principal é o executável  
+all: $(EXECUTAVEL)
 
-valgrind: 
-	@ echo "\033[1;32m"
-	@ echo "Running program ..."
-	@ echo "\033[0m"
-	@ valgrind ./$(NAME_PROGRAM)
+# para linkar o executável, precisamos dos arquivos-objetos
+$(EXECUTAVEL): $(OBJETOS)
+	@$(CPP) -o $@ $^ 
 
+# alvo para cada arquivo-objeto depende do código fonte
+# (observação, aqui não estamos capturando as dependências de arquivos .h)
+%.o: %.cpp
+	@$(CPP) $(CPPFLAGS) -c $(CFLAGS) $^
+
+# o comando para executar deve especificar sempre como parâmetro divulga.csv	
+run: $(EXECUTAVEL)
+	@./$(EXECUTAVEL) candidatos.csv partidos.csv 15/11/2020
+
+# comando para limpeza
 clean: 
-	@ echo "\033[1;35m"
-	@ echo "Removing temporary files ..."
-	@ rm -rf $(NAME_PROGRAM) $(O_FILES)
-	@ echo "\033[0m"
+	@rm *.o vereadores *.csv *.txt

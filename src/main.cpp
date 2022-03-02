@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
   vector<Partido *> partidos;
   vector<Candidato *> candidatos;
 
-  le_partidos(argv[1], partidos);
-  le_candidatos(argv[2], candidatos);
+  le_candidatos(argv[1], candidatos);
+  le_partidos(argv[2], partidos);
   relaciona_partidos_com_candidatos(partidos, candidatos);
 
   Relatorios r;
