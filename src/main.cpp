@@ -1,8 +1,10 @@
 #include "./candidato.h"
 #include "./partido.h"
 #include "./relatorios.h"
+
 #include <cstdlib>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <vector>
 
@@ -18,7 +20,6 @@ void relaciona_partidos_com_candidatos(vector<Partido *> &partidos,
                                        vector<Candidato *> &candidatos);
 
 int main(int argc, char *argv[]) {
-
   if (argc < 3) {
     cout << "Usage: ./vereadores <csv partido> <csv candidato>";
     exit(1);
@@ -35,27 +36,7 @@ int main(int argc, char *argv[]) {
   r.relatorio1(candidatos);
   r.relatorio2(candidatos);
   r.relatorio3(candidatos);
-
-  // cout << "Candidatos do partido 1: \n";
-  // for (const Candidato *c : candidatos) {
-  //   cout << "numero: " << c->get_numero() << endl;
-  //   cout << "votos_nominais: " << c->get_votos_nominais() << endl;
-  //   cout << "situacao: " << c->get_situacao() << endl;
-  //   cout << "nome: " << c->get_nome() << endl;
-  //   cout << "nome_urna: " << c->get_nome_urna() << endl;
-  //   cout << "sexo: " << c->get_sexo() << endl;
-  //   cout << "data_nascimento: " << c->get_data_nascimento() << endl;
-  //   cout << "destino_voto: " << c->get_destino_voto() << endl;
-  //   cout << "numero_partido: " << c->get_numero_partido() << endl;
-
-  //   const Partido *p = c->get_partido();
-  //   cout << "Partido: \n";
-  //   cout << "numero partido: " << p->get_numero_partido() << endl;
-  //   cout << "votos_legenda: " << p->get_votos_legenda() << endl;
-  //   cout << "nome_partido: " << p->get_nome_partido() << endl;
-  //   cout << "sigla_partido: " << p->get_sigla_partido() << endl;
-  //   cout << endl;
-  // }
+  r.relatorio11(partidos);
 }
 
 void le_partidos(string csv_partido, vector<Partido *> &partidos) {

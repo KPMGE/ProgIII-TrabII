@@ -1,8 +1,11 @@
 #ifndef PARTIDO_H_
 #define PARTIDO_H_
 
+#include <cstddef>
 #include <string>
 #include <vector>
+
+using std::size_t;
 using std::string;
 using std::vector;
 
@@ -25,6 +28,7 @@ public:
   const string &get_nome_partido() const;
   const string &get_sigla_partido() const;
   const vector<Candidato *> &get_candidatos() const;
+  size_t get_total_votos_validos() const;
 };
 
 #endif // !PARTIDO_H_
