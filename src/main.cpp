@@ -18,6 +18,8 @@ void le_partidos(string csv_partido, vector<Partido *> &partidos);
 void le_candidatos(string csv_candidato, vector<Candidato *> &candidatos);
 void relaciona_partidos_com_candidatos(vector<Partido *> &partidos,
                                        vector<Candidato *> &candidatos);
+void destroi_partidos(vector<Partido *> &partidos);
+void destroi_candidatos(vector<Candidato *> &candidatos);
 
 int main(int argc, char *argv[]) {
   if (argc < 3) {
@@ -37,6 +39,9 @@ int main(int argc, char *argv[]) {
   r.relatorio2(candidatos);
   r.relatorio3(candidatos);
   r.relatorio11(partidos);
+
+  destroi_partidos(partidos);
+  destroi_candidatos(candidatos);
 }
 
 void le_partidos(string csv_partido, vector<Partido *> &partidos) {
@@ -121,5 +126,17 @@ void relaciona_partidos_com_candidatos(vector<Partido *> &partidos,
         c->adiciona_partido(p);
       }
     }
+  }
+}
+
+void destroi_partidos(vector<Partido *> &partidos) {
+  for (Partido *p : partidos) {
+    delete p;
+  }
+}
+
+void destroi_candidatos(vector<Candidato *> &candidatos) {
+  for (Candidato *c : candidatos) {
+    delete c;
   }
 }
