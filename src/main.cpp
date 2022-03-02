@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
   Relatorios r;
   r.relatorio1(candidatos);
   r.relatorio2(candidatos);
+  r.relatorio3(candidatos);
 
   // cout << "Candidatos do partido 1: \n";
   // for (const Candidato *c : candidatos) {
