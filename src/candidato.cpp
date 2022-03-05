@@ -6,7 +6,7 @@ using std::vector;
 
 Candidato::Candidato(int numero, int votos_nominais, const string &situacao,
                      const string &nome, const string &nome_urna,
-                     const string &sexo, const string &data_nascimento,
+                     const string &sexo, const Data &data_nascimento,
                      const string &destino_voto, int numero_partido) {
   this->numero = numero;
   this->votos_nominais = votos_nominais;
@@ -35,7 +35,7 @@ const string &Candidato::get_nome_urna() const { return this->nome_urna; }
 
 const string &Candidato::get_sexo() const { return this->sexo; }
 
-const string &Candidato::get_data_nascimento() const {
+const Data &Candidato::get_data_nascimento() const {
   return this->data_nascimento;
 }
 

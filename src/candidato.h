@@ -1,6 +1,7 @@
 #ifndef CANDIDATO_H_
 #define CANDIDATO_H_
 
+#include "./Data.h"
 #include "./partido.h"
 #include <string>
 #include <vector>
@@ -15,7 +16,7 @@ private:
   string nome;
   string nome_urna;
   string sexo;
-  string data_nascimento;
+  Data data_nascimento;
   string destino_voto;
   int numero_partido;
   Partido *partido;
@@ -23,7 +24,7 @@ private:
 public:
   Candidato(int numero, int votos_nominais, const string &situacao,
             const string &nome, const string &nome_urna, const string &sexo,
-            const string &data_nascimento, const string &destino_voto,
+            const Data &data_nascimento, const string &destino_voto,
             int numero_partido);
 
   void adiciona_partido(Partido *novo_partido);
@@ -33,7 +34,7 @@ public:
   const string &get_nome() const;
   const string &get_nome_urna() const;
   const string &get_sexo() const;
-  const string &get_data_nascimento() const;
+  const Data &get_data_nascimento() const;
   const string &get_destino_voto() const;
   int get_numero_partido() const;
   const Partido *get_partido() const;
