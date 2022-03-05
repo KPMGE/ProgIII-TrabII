@@ -1,8 +1,10 @@
+#include "./Data.h"
 #include "./candidato.h"
 #include "./partido.h"
 #include "./relatorios.h"
 
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -12,6 +14,7 @@ using std::atoi;
 using std::cout;
 using std::fstream;
 using std::string;
+using std::time_t;
 using std::vector;
 
 void le_partidos(string csv_partido, vector<Partido *> &partidos);
@@ -80,7 +83,7 @@ void le_candidatos(string csv_candidato, vector<Candidato *> &candidatos) {
   string nome;
   string nome_urna;
   string sexo;
-  string data_nascimento;
+  string data_nascimento_string;
   string destino_voto;
   string numero_partido;
 
@@ -95,7 +98,7 @@ void le_candidatos(string csv_candidato, vector<Candidato *> &candidatos) {
     getline(csv_stream, nome, ',');
     getline(csv_stream, nome_urna, ',');
     getline(csv_stream, sexo, ',');
-    getline(csv_stream, data_nascimento, ',');
+    getline(csv_stream, data_nascimento_string, ',');
     getline(csv_stream, destino_voto, ',');
     getline(csv_stream, numero_partido, '\n');
 
@@ -108,9 +111,14 @@ void le_candidatos(string csv_candidato, vector<Candidato *> &candidatos) {
     int votos = atoi(votos_nominais.c_str());
     int num_partido = atoi(numero_partido.c_str());
 
+    Data data_nascimento(data_nascimento_string);
+
+    // criando novo candidato na heap
     Candidato *novoCandidato =
         new Candidato(num, votos, situacao, nome, nome_urna, sexo,
                       data_nascimento, destino_voto, num_partido);
+
+    // adicionando-o à lista
     candidatos.push_back(novoCandidato);
   }
 
