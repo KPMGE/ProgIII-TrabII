@@ -19,6 +19,8 @@ Candidato::Candidato(int numero, int votos_nominais, const string &situacao,
   this->numero_partido = numero_partido;
 }
 
+bool Candidato::eleito() const { return this->situacao == "Eleito"; }
+
 void Candidato::adiciona_partido(Partido *novo_partido) {
   this->partido = novo_partido;
 }

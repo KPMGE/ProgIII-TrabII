@@ -70,6 +70,35 @@ void Relatorios::relatorio3(vector<Candidato *> &lista_candidatos) {
   cout << endl;
 }
 
+void Relatorios::relatorio10(const vector<Candidato *> &lista_candidatos) {
+  size_t qtd_homens = 0, qtd_mulheres = 0, total;
+
+  for (const Candidato *const c : lista_candidatos) {
+    if (c->eleito()) {
+      if (c->get_sexo() == "F") {
+        qtd_mulheres++;
+      } else {
+        qtd_homens++;
+      }
+    }
+  }
+
+  total = qtd_homens + qtd_mulheres;
+  double porcentagem_mulheres = calcula_porcentagem(qtd_mulheres, total);
+  double porcentagem_homens = calcula_porcentagem(qtd_homens, total);
+  string porcentagem_mulheres_pt_br =
+      formatDouble(porcentagem_mulheres, LOCALE_PT_BR);
+  string porcentagem_homens_pt_br =
+      formatDouble(porcentagem_homens, LOCALE_PT_BR);
+
+  cout << "Eleitos, por sexo:" << endl;
+  cout << "Feminino: " << qtd_mulheres << " (" << porcentagem_mulheres_pt_br
+       << "%)" << endl;
+  cout << "Masculino: " << qtd_homens << " (" << porcentagem_homens_pt_br
+       << "%)" << endl
+       << endl;
+}
+
 void Relatorios::relatorio11(const vector<Partido *> &lista_partidos) {
   size_t votos_validos = 0;
   size_t votos_nominais = 0;

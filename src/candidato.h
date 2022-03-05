@@ -27,6 +27,7 @@ public:
             const Data &data_nascimento, const string &destino_voto,
             int numero_partido);
 
+  bool eleito() const;
   void adiciona_partido(Partido *novo_partido);
   int get_numero() const;
   int get_votos_nominais() const;

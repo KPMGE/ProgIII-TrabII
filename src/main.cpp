@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
   r.relatorio1(candidatos);
   r.relatorio2(candidatos);
   r.relatorio3(candidatos);
+  r.relatorio10(candidatos);
   r.relatorio11(partidos);
 
   destroi_partidos(partidos);
