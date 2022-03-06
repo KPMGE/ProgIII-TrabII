@@ -70,6 +70,50 @@ void Relatorios::relatorio3(vector<Candidato *> &lista_candidatos) {
   cout << endl;
 }
 
+void Relatorios::relatorio6(vector<Partido *> &lista_partidos) {
+  cout << "Votação dos partidos e número de candidatos eleitos:" << endl;
+
+  auto comp = [](Partido const *p1, Partido const *p2) {
+    int votos_p1 = p1->get_total_votos_validos();
+    int votos_p2 = p2->get_total_votos_validos();
+
+    if (votos_p1 < votos_p2)
+      return false;
+    if (p2->get_numero_partido() < p2->get_numero_partido())
+      return false;
+    return true;
+  };
+
+  std::sort(lista_partidos.begin(), lista_partidos.end(), comp);
+
+  for (size_t i = 0; i < lista_partidos.size(); i++) {
+    int qtd_eleitos = 0;
+    const Partido *const p = lista_partidos.at(i);
+    const vector<Candidato *> &lista_candidatos = p->get_candidatos();
+
+    // calcula a quantidade de candidatos eleitos
+    for (const Candidato *const c : lista_candidatos) {
+      if (c->eleito()) {
+        qtd_eleitos++;
+      }
+    }
+
+    size_t votos_legenda = p->get_votos_legenda();
+    size_t total_votos = p->get_total_votos_validos();
+    size_t votos_nominais = total_votos - votos_legenda;
+
+    cout << i + 1 << " - " << p->get_sigla_partido() << " - "
+         << p->get_numero_partido();
+    cout << total_votos << " votos (" << votos_nominais << " nominais e "
+         << votos_legenda << " de legenda), ";
+    cout << qtd_eleitos
+         << ((qtd_eleitos > 1) ? " candidatos eleitos" : " candidato eleito")
+         << endl;
+  }
+
+  cout << endl;
+}
+
 void Relatorios::relatorio9(const vector<Candidato *> &lista_candidatos,
                             const Data &data_eleicao) {
   // quantidade de candidatos em cada faixa etária
