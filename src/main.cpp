@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
 
+  Data data_eleicao(argv[3]);
   vector<Partido *> partidos;
   vector<Candidato *> candidatos;
 
@@ -41,6 +42,7 @@ int main(int argc, char *argv[]) {
   r.relatorio1(candidatos);
   r.relatorio2(candidatos);
   r.relatorio3(candidatos);
+  r.relatorio9(candidatos, data_eleicao);
   r.relatorio10(candidatos);
   r.relatorio11(partidos);
 

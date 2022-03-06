@@ -70,6 +70,72 @@ void Relatorios::relatorio3(vector<Candidato *> &lista_candidatos) {
   cout << endl;
 }
 
+void Relatorios::relatorio9(const vector<Candidato *> &lista_candidatos,
+                            const Data &data_eleicao) {
+  // quantidade de candidatos em cada faixa etária
+  int qtdMenor30 = 0, qtdEntre30e40 = 0, qtdEntre40e50 = 0, qtdEntre50e60 = 0,
+      qtdMaior60 = 0;
+
+  cout << "Eleitos, por faixa etária (na data da eleição):" << endl;
+
+  for (const Candidato *const c : lista_candidatos) {
+    if (c->eleito()) {
+      unsigned short idade = c->calcula_idade_em_anos(data_eleicao);
+
+      if (idade < 30) {
+        qtdMenor30++;
+        continue;
+      }
+
+      if (idade < 40) {
+        qtdEntre30e40++;
+        continue;
+      }
+
+      if (idade < 50) {
+        qtdEntre40e50++;
+        continue;
+      }
+
+      if (idade < 60) {
+        qtdEntre50e60++;
+        continue;
+      }
+
+      qtdMaior60++;
+    }
+  }
+
+  int total =
+      qtdMenor30 + qtdEntre30e40 + qtdEntre40e50 + qtdEntre50e60 + qtdMaior60;
+
+  double porcentagemMenor30 = calcula_porcentagem(qtdMenor30, total);
+  double porcentagem30e40 = calcula_porcentagem(qtdEntre30e40, total);
+  double porcentagem40e50 = calcula_porcentagem(qtdEntre40e50, total);
+  double porcentagem50e60 = calcula_porcentagem(qtdEntre50e60, total);
+  double porcentagemMaior60 = calcula_porcentagem(qtdMaior60, total);
+
+  string porcentagemMenor30_pt_br =
+      formatDouble(porcentagemMenor30, LOCALE_PT_BR);
+  string porcentagem30e40_pt_br = formatDouble(porcentagem30e40, LOCALE_PT_BR);
+  string porcentagem40e50_pt_br = formatDouble(porcentagem40e50, LOCALE_PT_BR);
+  string porcentagem50e60_pt_br = formatDouble(porcentagem50e60, LOCALE_PT_BR);
+  string porcentagemMaior60_pt_br =
+      formatDouble(porcentagemMaior60, LOCALE_PT_BR);
+
+  cout << "      Idade < 30: " << qtdMenor30 << " (" << porcentagemMenor30_pt_br
+       << "%)" << endl;
+  cout << "30 <= Idade < 40: " << qtdEntre30e40 << " ("
+       << porcentagem30e40_pt_br << "%)" << endl;
+  cout << "40 <= Idade < 50: " << qtdEntre40e50 << " ("
+       << porcentagem40e50_pt_br << "%)" << endl;
+  cout << "50 <= Idade < 60: " << qtdEntre50e60 << " ("
+       << porcentagem50e60_pt_br << "%)" << endl;
+  cout << "60 <= Idade     : " << qtdMaior60 << " (" << porcentagemMaior60_pt_br
+       << "%)" << endl
+       << endl;
+}
+
 void Relatorios::relatorio10(const vector<Candidato *> &lista_candidatos) {
   size_t qtd_homens = 0, qtd_mulheres = 0, total;
 

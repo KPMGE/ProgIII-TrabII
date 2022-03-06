@@ -21,6 +21,10 @@ Candidato::Candidato(int numero, int votos_nominais, const string &situacao,
 
 bool Candidato::eleito() const { return this->situacao == "Eleito"; }
 
+unsigned short Candidato::calcula_idade_em_anos(const Data &data) const {
+  return data.get_ano() - data_nascimento.get_ano();
+}
+
 void Candidato::adiciona_partido(Partido *novo_partido) {
   this->partido = novo_partido;
 }
