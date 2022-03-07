@@ -114,6 +114,47 @@ void Relatorios::relatorio6(vector<Partido *> &lista_partidos) {
   cout << endl;
 }
 
+// 2 - REPUBLICANOS - 10, 1413 votos de legenda (12,62% do total do
+void Relatorios::relatorio7(vector<Partido *> &lista_partidos) {
+  cout << "Votação dos partidos (apenas votos de legenda):" << endl;
+
+  auto comp = [](Partido const *p1, Partido const *p2) {
+    int votos_p1 = p1->get_votos_legenda();
+    int votos_p2 = p2->get_votos_legenda();
+
+    if (votos_p1 < votos_p2)
+      return false;
+    if (p2->get_numero_partido() < p2->get_numero_partido())
+      return false;
+    return true;
+  };
+
+  std::sort(lista_partidos.begin(), lista_partidos.end(), comp);
+
+  for (size_t i = 0; i < lista_partidos.size(); i++) {
+    const Partido *const p = lista_partidos.at(i);
+    size_t votos_legenda = p->get_votos_legenda();
+    size_t total_votos = p->get_total_votos_validos();
+
+    double porcentagem = calcula_porcentagem(votos_legenda, total_votos);
+    string porcentagem_pt_br = formatDouble(porcentagem, LOCALE_PT_BR);
+
+    cout << i + 1 << " - " << p->get_sigla_partido() << " - "
+         << p->get_numero_partido() << ", ";
+    cout << votos_legenda
+         << ((votos_legenda <= 1) ? " voto de legenda" : " votos de legenda ");
+
+    if (votos_legenda == 0) {
+      cout << " ("
+           << "proporção não calculada, 0 voto no partido)" << endl;
+    } else {
+      cout << "(" << porcentagem_pt_br << "% do total do partido)" << endl;
+    }
+  }
+
+  cout << endl;
+}
+
 void Relatorios::relatorio9(const vector<Candidato *> &lista_candidatos,
                             const Data &data_eleicao) {
   // quantidade de candidatos em cada faixa etária

@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
   r.relatorio2(candidatos);
   r.relatorio3(candidatos);
   r.relatorio6(partidos);
+  r.relatorio7(partidos);
   r.relatorio9(candidatos, data_eleicao);
   r.relatorio10(candidatos);
   r.relatorio11(partidos);
