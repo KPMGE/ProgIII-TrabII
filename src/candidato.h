@@ -29,6 +29,7 @@ public:
 
   bool eleito() const;
   unsigned short calcula_idade_em_anos(const Data &data) const;
+  bool mais_velho(const Candidato *const c) const;
   void adiciona_partido(Partido *novo_partido);
   int get_numero() const;
   size_t get_votos_nominais() const;

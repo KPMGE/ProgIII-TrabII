@@ -23,6 +23,7 @@ public:
   Partido(const int &numero_partido, const int &votos_legenda,
           const string &nome_partido, const string &sigla_partido);
   void adiciona_candidato(Candidato *novo_candidato);
+  bool valido() const;
   int get_votos_legenda() const;
   int get_numero_partido() const;
   const string &get_nome_partido() const;

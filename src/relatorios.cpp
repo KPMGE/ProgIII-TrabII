@@ -129,7 +129,6 @@ void Relatorios::relatorio6(vector<Partido *> &lista_partidos) {
   cout << endl;
 }
 
-// 2 - REPUBLICANOS - 10, 1413 votos de legenda (12,62% do total do
 void Relatorios::relatorio7(vector<Partido *> &lista_partidos) {
   cout << "Votação dos partidos (apenas votos de legenda):" << endl;
 
@@ -170,26 +169,42 @@ void Relatorios::relatorio7(vector<Partido *> &lista_partidos) {
   cout << endl;
 }
 
-// TODO: Refatorar funções de ordenação para o partido, de modo a considerar
-// questões de idade
 void Relatorios::relatorio8(vector<Partido *> &lista_partidos) {
   cout << "Primeiro e último colocados de cada partido:" << endl;
 
-  auto comp = [](Partido const *p1, Partido const *p2) {
+  auto comp_partidos = [](Partido const *p1, Partido const *p2) {
     size_t qtd_mais_votado_p1 = votos_nominais_candidato_mais_votado(p1);
     size_t qtd_mais_votado_p2 = votos_nominais_candidato_mais_votado(p2);
+
+    if (qtd_mais_votado_p1 == qtd_mais_votado_p2) {
+      int num_p1 = p1->get_numero_partido();
+      int num_p2 = p2->get_numero_partido();
+
+      return num_p1 < num_p2;
+    }
 
     return qtd_mais_votado_p1 > qtd_mais_votado_p2;
   };
 
-  std::sort(lista_partidos.begin(), lista_partidos.end(), comp);
+  std::sort(lista_partidos.begin(), lista_partidos.end(), comp_partidos);
 
   auto comp_candidato = [](Candidato const *c1, Candidato const *c2) {
-    return c2->get_votos_nominais() < c1->get_votos_nominais();
+    int votos_c1 = c1->get_votos_nominais();
+    int votos_c2 = c2->get_votos_nominais();
+
+    if (votos_c1 == votos_c2) {
+      return c1->mais_velho(c2);
+    }
+
+    return votos_c2 < votos_c1;
   };
 
   for (size_t i = 0; i < lista_partidos.size(); i++) {
     const Partido *const p = lista_partidos.at(i);
+
+    if (!p->valido()) {
+      continue;
+    }
 
     size_t votos_validos = p->get_total_votos_validos();
     if (votos_validos < 1) {
@@ -214,6 +229,8 @@ void Relatorios::relatorio8(vector<Partido *> &lista_partidos) {
          << ultimo->get_votos_nominais() << " votos"
          << ")" << endl;
   }
+
+  cout << endl;
 }
 
 void Relatorios::relatorio9(const vector<Candidato *> &lista_candidatos,

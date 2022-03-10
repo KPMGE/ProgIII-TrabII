@@ -15,6 +15,8 @@ void Partido::adiciona_candidato(Candidato *novo_candidato) {
 
 int Partido::get_numero_partido() const { return this->numero_partido; }
 
+bool Partido::valido() const { return this->votos_legenda > 1; }
+
 int Partido::get_votos_legenda() const { return this->votos_legenda; }
 
 const string &Partido::get_nome_partido() const { return this->nome_partido; }
