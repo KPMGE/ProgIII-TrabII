@@ -363,7 +363,7 @@ void Relatorios::relatorio11(const vector<Partido *> &lista_partidos) {
   cout << "Total de votos válidos:    " << votos_validos << endl;
   cout << "Total de votos nominais:   " << votos_nominais << " ("
        << porcentagem_votos_nominais_em_pt << "%)" << endl;
-  cout << "Total de votos de legenda: " << votos_nominais << " ("
+  cout << "Total de votos de legenda: " << votos_legenda << " ("
        << porcentagem_votos_legenda_em_pt << "%)" << endl
        << endl;
 }
