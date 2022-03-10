@@ -27,6 +27,21 @@ Relatorios::calcula_numero_vagas(const vector<Candidato *> &lista_candidatos) {
   return qtd_vagas;
 }
 
+size_t
+Relatorios::votos_nominais_candidato_mais_votado(const Partido *const p) {
+  vector<Candidato *> lista = p->get_candidatos();
+
+  Candidato *mais_votado = lista.at(0);
+
+  for (Candidato *c : lista) {
+    if (c->get_votos_nominais() > mais_votado->get_votos_nominais()) {
+      mais_votado = c;
+    }
+  }
+
+  return mais_votado->get_votos_nominais();
+}
+
 void Relatorios::relatorio1(const vector<Candidato *> &lista_candidatos) {
   cout << "Número de vagas: " << calcula_numero_vagas(lista_candidatos) << endl
        << endl;
@@ -153,6 +168,52 @@ void Relatorios::relatorio7(vector<Partido *> &lista_partidos) {
   }
 
   cout << endl;
+}
+
+// TODO: Refatorar funções de ordenação para o partido, de modo a considerar
+// questões de idade
+void Relatorios::relatorio8(vector<Partido *> &lista_partidos) {
+  cout << "Primeiro e último colocados de cada partido:" << endl;
+
+  auto comp = [](Partido const *p1, Partido const *p2) {
+    size_t qtd_mais_votado_p1 = votos_nominais_candidato_mais_votado(p1);
+    size_t qtd_mais_votado_p2 = votos_nominais_candidato_mais_votado(p2);
+
+    return qtd_mais_votado_p1 > qtd_mais_votado_p2;
+  };
+
+  std::sort(lista_partidos.begin(), lista_partidos.end(), comp);
+
+  auto comp_candidato = [](Candidato const *c1, Candidato const *c2) {
+    return c2->get_votos_nominais() < c1->get_votos_nominais();
+  };
+
+  for (size_t i = 0; i < lista_partidos.size(); i++) {
+    const Partido *const p = lista_partidos.at(i);
+
+    size_t votos_validos = p->get_total_votos_validos();
+    if (votos_validos < 1) {
+      continue;
+    }
+
+    vector<Candidato *> candidatos_partido = p->get_candidatos();
+
+    std::sort(candidatos_partido.begin(), candidatos_partido.end(),
+              comp_candidato);
+
+    const Candidato *const primeiro = candidatos_partido.at(0);
+    const Candidato *const ultimo =
+        candidatos_partido.at(candidatos_partido.size() - 1);
+
+    cout << i + 1 << " - " << p->get_sigla_partido() << " - "
+         << p->get_numero_partido() << ", ";
+    cout << primeiro->get_nome_urna() << " (" << primeiro->get_numero() << ", "
+         << primeiro->get_votos_nominais() << " votos"
+         << ") / ";
+    cout << ultimo->get_nome_urna() << " (" << ultimo->get_numero() << ", "
+         << ultimo->get_votos_nominais() << " votos"
+         << ")" << endl;
+  }
 }
 
 void Relatorios::relatorio9(const vector<Candidato *> &lista_candidatos,
