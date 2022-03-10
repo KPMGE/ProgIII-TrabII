@@ -48,6 +48,8 @@ void Relatorios::relatorio1(const vector<Candidato *> &lista_candidatos) {
 }
 
 void Relatorios::relatorio2(vector<Candidato *> &lista_candidatos) {
+  cout << "Vereadores eleitos:" << endl;
+
   auto comp = [](Candidato const *c1, Candidato const *c2) {
     return c2->get_votos_nominais() < c1->get_votos_nominais();
   };
