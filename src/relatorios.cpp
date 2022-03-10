@@ -331,7 +331,7 @@ void Relatorios::relatorio10(const vector<Candidato *> &lista_candidatos) {
       formatDouble(porcentagem_homens, LOCALE_PT_BR);
 
   cout << "Eleitos, por sexo:" << endl;
-  cout << "Feminino: " << qtd_mulheres << " (" << porcentagem_mulheres_pt_br
+  cout << "Feminino:  " << qtd_mulheres << " (" << porcentagem_mulheres_pt_br
        << "%)" << endl;
   cout << "Masculino: " << qtd_homens << " (" << porcentagem_homens_pt_br
        << "%)" << endl
