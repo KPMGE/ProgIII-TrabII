@@ -27,7 +27,9 @@ size_t Partido::get_total_votos_validos() const {
   size_t total = 0;
 
   for (const Candidato *c : this->candidatos) {
-    total += c->get_votos_nominais();
+    if (c->get_destino_voto() == "Válido") {
+      total += c->get_votos_nominais();
+    }
   }
 
   return total + this->votos_legenda;

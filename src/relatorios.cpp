@@ -69,6 +69,10 @@ void Relatorios::relatorio2(vector<Candidato *> &lista_candidatos) {
 }
 
 void Relatorios::relatorio3(vector<Candidato *> &lista_candidatos) {
+  cout << "Candidatos mais votados (em ordem decrescente de votação e "
+          "respeitando número de vagas):"
+       << endl;
+
   auto comp = [](Candidato const *c1, Candidato const *c2) {
     return c2->get_votos_nominais() < c1->get_votos_nominais();
   };
@@ -120,9 +124,13 @@ void Relatorios::relatorio6(vector<Partido *> &lista_partidos) {
     size_t votos_nominais = total_votos - votos_legenda;
 
     cout << i + 1 << " - " << p->get_sigla_partido() << " - "
-         << p->get_numero_partido();
-    cout << total_votos << " votos (" << votos_nominais << " nominais e "
+         << p->get_numero_partido() << ", ";
+
+    cout << total_votos << ((total_votos > 1) ? " votos" : " voto") << " ("
+         << votos_nominais
+         << ((votos_nominais > 1) ? " nominais e " : " nominal e ")
          << votos_legenda << " de legenda), ";
+
     cout << qtd_eleitos
          << ((qtd_eleitos > 1) ? " candidatos eleitos" : " candidato eleito")
          << endl;
