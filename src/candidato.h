@@ -31,7 +31,7 @@ public:
   unsigned short calcula_idade_em_anos(const Data &data) const;
   void adiciona_partido(Partido *novo_partido);
   int get_numero() const;
-  int get_votos_nominais() const;
+  size_t get_votos_nominais() const;
   const string &get_situacao() const;
   const string &get_nome() const;
   const string &get_nome_urna() const;

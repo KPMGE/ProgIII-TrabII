@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
   r.relatorio3(candidatos);
   r.relatorio6(partidos);
   r.relatorio7(partidos);
+  r.relatorio8(partidos);
   r.relatorio9(candidatos, data_eleicao);
   r.relatorio10(candidatos);
   r.relatorio11(partidos);
@@ -59,7 +60,13 @@ void le_partidos(string csv_partido, vector<Partido *> &partidos) {
   string sigla_partido;
 
   fstream csv_stream;
-  csv_stream.open(csv_partido);
+
+  try {
+    csv_stream.open(csv_partido);
+  } catch (const std::exception &) {
+    std::cerr << "Erro ao abrir o arquivo";
+  }
+
   getline(csv_stream, numero_partido, '\n'); // ignora a primeira linha
 
   while (csv_stream.good()) {
@@ -93,7 +100,12 @@ void le_candidatos(string csv_candidato, vector<Candidato *> &candidatos) {
   string numero_partido;
 
   fstream csv_stream;
-  csv_stream.open(csv_candidato);
+  try {
+    csv_stream.open(csv_candidato);
+  } catch (const std::exception &) {
+    std::cerr << "Erro ao abrir o arquivo";
+  }
+
   getline(csv_stream, nome, '\n'); // ignora a primeira linha
 
   while (csv_stream.good()) {

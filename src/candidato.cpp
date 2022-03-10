@@ -31,7 +31,7 @@ void Candidato::adiciona_partido(Partido *novo_partido) {
 
 int Candidato::get_numero() const { return this->numero; }
 
-int Candidato::get_votos_nominais() const { return this->votos_nominais; }
+size_t Candidato::get_votos_nominais() const { return this->votos_nominais; }
 
 const string &Candidato::get_situacao() const { return this->situacao; }
 
