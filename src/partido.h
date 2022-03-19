@@ -24,6 +24,7 @@ public:
           const string &nome_partido, const string &sigla_partido);
   void adiciona_candidato(Candidato *novo_candidato);
   bool valido() const;
+  const Candidato *get_candidato_mais_votado() const;
   int get_votos_legenda() const;
   int get_numero_partido() const;
   const string &get_nome_partido() const;

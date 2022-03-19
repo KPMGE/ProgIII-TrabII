@@ -20,6 +20,8 @@ public:
   static void relatorio1(const vector<Candidato *> &lista_candidatos);
   static void relatorio2(vector<Candidato *> &lista_candidatos);
   static void relatorio3(vector<Candidato *> &lista_candidatos);
+  static void relatorio4(vector<Candidato *> &lista_candidatos);
+  static void relatorio5(vector<Candidato *> &lista_candidatos);
   static void relatorio6(vector<Partido *> &lista_partidos);
   static void relatorio7(vector<Partido *> &lista_partidos);
   static void relatorio8(vector<Partido *> &lista_partidos);

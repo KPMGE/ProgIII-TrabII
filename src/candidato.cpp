@@ -22,7 +22,28 @@ Candidato::Candidato(int numero, int votos_nominais, const string &situacao,
 bool Candidato::eleito() const { return this->situacao == "Eleito"; }
 
 unsigned short Candidato::calcula_idade_em_anos(const Data &data) const {
-  return data.get_ano() - data_nascimento.get_ano();
+  unsigned int ano_atual = data.get_ano();
+  unsigned int mes_atual = data.get_mes();
+  unsigned int dia_atual = data.get_dia();
+
+  unsigned int ano_nascimento = this->data_nascimento.get_ano();
+  unsigned int mes_nascimento = this->data_nascimento.get_mes();
+  unsigned int dia_nascimento = this->data_nascimento.get_dia();
+
+  // idade em anos dada pela diferença da data atual com a data que a pessoa
+  // nasceu.
+  size_t idade_anos = ano_atual - ano_nascimento;
+
+  // se o mês de anoNascimento for maior que o mês atual, ou então se, sendo o
+  // mesmo mês, mas o dia de nascimento
+  // é maior que o dia atual, então sabemos que a pessoa não fez aniversário
+  // ainda, logo, retornamos --idade.
+  if (mes_nascimento > mes_atual ||
+      ((mes_atual == mes_nascimento) && (dia_nascimento > dia_atual))) {
+    return --idade_anos;
+  }
+
+  return idade_anos;
 }
 
 bool Candidato::mais_velho(const Candidato *const c) const {

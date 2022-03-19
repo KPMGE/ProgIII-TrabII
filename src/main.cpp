@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <regex>
 #include <vector>
 
 using std::atoi;
@@ -16,6 +17,16 @@ using std::fstream;
 using std::string;
 using std::time_t;
 using std::vector;
+
+std::string ltrim(const std::string &s) {
+  return std::regex_replace(s, std::regex("^\\s+"), std::string(""));
+}
+
+std::string rtrim(const std::string &s) {
+  return std::regex_replace(s, std::regex("\\s+$"), std::string(""));
+}
+
+std::string trim(const std::string &s) { return ltrim(rtrim(s)); }
 
 void le_partidos(string csv_partido, vector<Partido *> &partidos);
 void le_candidatos(string csv_candidato, vector<Candidato *> &candidatos);
@@ -42,6 +53,8 @@ int main(int argc, char *argv[]) {
   r.relatorio1(candidatos);
   r.relatorio2(candidatos);
   r.relatorio3(candidatos);
+  r.relatorio4(candidatos);
+  r.relatorio5(candidatos);
   r.relatorio6(partidos);
   r.relatorio7(partidos);
   r.relatorio8(partidos);
@@ -74,6 +87,10 @@ void le_partidos(string csv_partido, vector<Partido *> &partidos) {
     getline(csv_stream, votos_legenda, ',');
     getline(csv_stream, nome_partido, ',');
     getline(csv_stream, sigla_partido, '\n');
+
+    // removendo eventuais linhas em branco do começo e do final das strings.
+    nome_partido = trim(nome_partido);
+    sigla_partido = trim(sigla_partido);
 
     if (!csv_stream.good()) {
       break;
@@ -119,8 +136,17 @@ void le_candidatos(string csv_candidato, vector<Candidato *> &candidatos) {
     getline(csv_stream, destino_voto, ',');
     getline(csv_stream, numero_partido, '\n');
 
+    // removendo eventuais linhas em branco do começo e do final das strings.
+    nome = trim(nome);
+    nome_urna = trim(nome_urna);
+    destino_voto = trim(destino_voto);
+
     if (!csv_stream.good()) {
       break;
+    }
+
+    if (destino_voto != "Válido") {
+      continue;
     }
 
     // convertendo de string para número

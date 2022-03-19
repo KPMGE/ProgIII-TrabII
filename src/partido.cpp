@@ -13,9 +13,21 @@ void Partido::adiciona_candidato(Candidato *novo_candidato) {
   this->candidatos.push_back(novo_candidato);
 }
 
+const Candidato *Partido::get_candidato_mais_votado() const {
+  Candidato *mais_votado = this->candidatos.at(0);
+
+  for (Candidato *c : this->candidatos) {
+    if (c->get_votos_nominais() > mais_votado->get_votos_nominais()) {
+      mais_votado = c;
+    }
+  }
+
+  return mais_votado;
+}
+
 int Partido::get_numero_partido() const { return this->numero_partido; }
 
-bool Partido::valido() const { return this->votos_legenda > 1; }
+bool Partido::valido() const { return this->get_total_votos_validos() > 0; }
 
 int Partido::get_votos_legenda() const { return this->votos_legenda; }
 

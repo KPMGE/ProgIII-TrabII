@@ -91,6 +91,55 @@ void Relatorios::relatorio3(vector<Candidato *> &lista_candidatos) {
   cout << endl;
 }
 
+void Relatorios::relatorio4(vector<Candidato *> &lista_candidatos) {
+  cout << "Teriam sido eleitos se a votação fosse majoritária, e não foram "
+          "eleitos:"
+       << endl
+       << "(com sua posição no ranking de mais votados)" << endl;
+  ;
+
+  auto comp = [](Candidato const *c1, Candidato const *c2) {
+    return c2->get_votos_nominais() < c1->get_votos_nominais();
+  };
+
+  std::sort(lista_candidatos.begin(), lista_candidatos.end(), comp);
+  size_t qtd_vagas = calcula_numero_vagas(lista_candidatos);
+
+  for (size_t i = 0; i < qtd_vagas; i++) {
+    const Candidato *c = lista_candidatos[i];
+    if (c->get_situacao() != "Eleito") {
+      cout << i + 1 << " - " << c->get_nome() << " / " << c->get_nome_urna()
+           << " (" << c->get_partido()->get_sigla_partido() << ", "
+           << c->get_votos_nominais() << " votos)" << endl;
+    }
+  }
+
+  cout << endl;
+}
+
+void Relatorios::relatorio5(vector<Candidato *> &lista_candidatos) {
+  cout << "Eleitos, que se beneficiaram do sistema proporcional:" << endl
+       << "(com sua posição no ranking de mais votados)" << endl;
+
+  auto comp = [](Candidato const *c1, Candidato const *c2) {
+    return c2->get_votos_nominais() < c1->get_votos_nominais();
+  };
+
+  size_t qtd_vagas = calcula_numero_vagas(lista_candidatos);
+  std::sort(lista_candidatos.begin(), lista_candidatos.end(), comp);
+
+  for (size_t i = qtd_vagas; i < lista_candidatos.size() - 1; i++) {
+    const Candidato *c = lista_candidatos[i];
+    if (c->eleito()) {
+      cout << i + 1 << " - " << c->get_nome() << " / " << c->get_nome_urna()
+           << " (" << c->get_partido()->get_sigla_partido() << ", "
+           << c->get_votos_nominais() << " votos)" << endl;
+    }
+  }
+
+  cout << endl;
+}
+
 void Relatorios::relatorio6(vector<Partido *> &lista_partidos) {
   cout << "Votação dos partidos e número de candidatos eleitos:" << endl;
 
@@ -146,10 +195,29 @@ void Relatorios::relatorio7(vector<Partido *> &lista_partidos) {
     int votos_p1 = p1->get_votos_legenda();
     int votos_p2 = p2->get_votos_legenda();
 
-    if (votos_p1 < votos_p2)
+    if (votos_p1 == votos_p2) {
+      int votos_nominais_p1 =
+          p1->get_total_votos_validos() - p1->get_votos_legenda();
+      int votos_nominais_p2 =
+          p2->get_total_votos_validos() - p2->get_votos_legenda();
+
+      if (votos_nominais_p1 == votos_nominais_p2) {
+        if (p1->get_numero_partido() < p2->get_numero_partido()) {
+          return false;
+        }
+      }
+
+      if (votos_nominais_p1 < votos_nominais_p2) {
+        return false;
+      }
+
+      return true;
+    }
+
+    if (votos_p1 < votos_p2) {
       return false;
-    if (p2->get_numero_partido() < p2->get_numero_partido())
-      return false;
+    }
+
     return true;
   };
 
@@ -182,6 +250,16 @@ void Relatorios::relatorio7(vector<Partido *> &lista_partidos) {
 void Relatorios::relatorio8(vector<Partido *> &lista_partidos) {
   cout << "Primeiro e último colocados de cada partido:" << endl;
 
+  // cria vetor para os partidos válidos
+  vector<Partido *> partidos_validos;
+  for (Partido *p : lista_partidos) {
+    if (!p->valido()) {
+      continue;
+    }
+
+    partidos_validos.push_back(p);
+  }
+
   auto comp_partidos = [](Partido const *p1, Partido const *p2) {
     size_t qtd_mais_votado_p1 = votos_nominais_candidato_mais_votado(p1);
     size_t qtd_mais_votado_p2 = votos_nominais_candidato_mais_votado(p2);
@@ -196,7 +274,7 @@ void Relatorios::relatorio8(vector<Partido *> &lista_partidos) {
     return qtd_mais_votado_p1 > qtd_mais_votado_p2;
   };
 
-  std::sort(lista_partidos.begin(), lista_partidos.end(), comp_partidos);
+  std::sort(partidos_validos.begin(), partidos_validos.end(), comp_partidos);
 
   auto comp_candidato = [](Candidato const *c1, Candidato const *c2) {
     int votos_c1 = c1->get_votos_nominais();
@@ -209,17 +287,8 @@ void Relatorios::relatorio8(vector<Partido *> &lista_partidos) {
     return votos_c2 < votos_c1;
   };
 
-  for (size_t i = 0; i < lista_partidos.size(); i++) {
-    const Partido *const p = lista_partidos.at(i);
-
-    if (!p->valido()) {
-      continue;
-    }
-
-    size_t votos_validos = p->get_total_votos_validos();
-    if (votos_validos < 1) {
-      continue;
-    }
+  for (size_t i = 0; i < partidos_validos.size(); i++) {
+    const Partido *const p = partidos_validos.at(i);
 
     vector<Candidato *> candidatos_partido = p->get_candidatos();
 
@@ -230,14 +299,20 @@ void Relatorios::relatorio8(vector<Partido *> &lista_partidos) {
     const Candidato *const ultimo =
         candidatos_partido.at(candidatos_partido.size() - 1);
 
+    size_t primeiro_votos_nominais = primeiro->get_votos_nominais();
+    string primeiro_voto_mensagem =
+        (primeiro_votos_nominais > 1 ? " votos" : " voto");
+
+    size_t ultimo_votos_nominais = ultimo->get_votos_nominais();
+    string ultimo_voto_mensagem =
+        (ultimo_votos_nominais > 1 ? " votos" : " voto");
+
     cout << i + 1 << " - " << p->get_sigla_partido() << " - "
          << p->get_numero_partido() << ", ";
     cout << primeiro->get_nome_urna() << " (" << primeiro->get_numero() << ", "
-         << primeiro->get_votos_nominais() << " votos"
-         << ") / ";
+         << primeiro_votos_nominais << primeiro_voto_mensagem << ") / ";
     cout << ultimo->get_nome_urna() << " (" << ultimo->get_numero() << ", "
-         << ultimo->get_votos_nominais() << " votos"
-         << ")" << endl;
+         << ultimo_votos_nominais << ultimo_voto_mensagem << ")" << endl;
   }
 
   cout << endl;
